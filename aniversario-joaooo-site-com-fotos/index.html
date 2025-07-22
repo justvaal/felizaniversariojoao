@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feliz Aniversário, João Henrique!</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e6f2ff;
+      color: #003366;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #0059b3;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.8em;
+      margin: 0;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .typewriter {
+      font-size: 1.2em;
+      font-family: monospace;
+      white-space: nowrap;
+      border-right: 2px solid #fff;
+      width: 100%;
+      overflow: hidden;
+    }
+    .content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .photo-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .photo-gallery img {
+      max-width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .message {
+      background-color: #f0f8ff;
+      border-left: 5px solid #0059b3;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #cce0ff;
+      color: #003366;
+    }
+    .music-player {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .button {
+      background-color: #0059b3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .confetti {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+      .photo-gallery img {
+        max-width: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+<canvas class="confetti" id="confetti"></canvas>
+<header>
+  <h1>Feliz Aniversário, João Henrique!</h1>
+  <div class="typewriter" id="typewriter"></div>
+</header>
+<div class="music-player">
+  <button class="button" onclick="togglePlayer()">Tocar / Parar Música</button>
+</div>
+<div id="ytplayer" style="display: none; text-align: center;">
+  <iframe width="300" height="80"
+    src="https://www.youtube.com/embed/Hzm8SFGsd_I?autoplay=1&loop=1&playlist=Hzm8SFGsd_I"
+    title="True Friend - Hannah Montana" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+  </iframe>
+</div>
+<div class="content">
+  <div class="message">
+    <p>“The Midnight Sky is our song.”</p>
+  </div>
+  <div class="photo-gallery" id="galeria">
+    <img src="fotos/foto1.jpeg" alt="Foto 1 com João" />
+    <img src="fotos/foto2.jpeg" alt="Foto 2 com João" />
+    <img src="fotos/foto3.jpeg" alt="Foto 3 com João" />
+    <img src="fotos/foto4.jpeg" alt="Foto 4 com João" />
+    <img src="fotos/foto5.jpeg" alt="Foto 5 com João" />
+    <img src="fotos/foto6.jpeg" alt="Foto 6 com João" />
+    <img src="fotos/foto7.jpeg" alt="Foto 7 com João" />
+    <img src="fotos/foto8.jpeg" alt="Foto 8 com João" />
+    <img src="fotos/foto9.jpeg" alt="Foto 9 com João" />
+    <img src="fotos/foto10.jpeg" alt="Foto 10 com João" />
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <button class="button" onclick="document.getElementById('galeria').scrollIntoView({ behavior: 'smooth' });">
+      Ver todas as fotos
+    </button>
+  </div>
+  <div class="message">
+    <p>Você é um verdadeiro amigo, João. Obrigado por ser sempre você. 💙</p>
+  </div>
+</div>
+<footer>
+  <p>Com carinho, [Seu Nome] ✨</p>
+</footer>
+<script>
+  function togglePlayer() {
+    var player = document.getElementById("ytplayer");
+    player.style.display = player.style.display === "none" ? "block" : "none";
+  }
+
+  const frases = [
+    "Amigo de verdade ✨",
+    "Te desejo tudo de bom 💙",
+    "Você é especial demais 🎉",
+    "Sempre estarei aqui 🤍"
+  ];
+  let i = 0, j = 0, atual = "", isDeleting = false;
+  const typeDiv = document.getElementById("typewriter");
+
+  function type() {
+    if (i < frases.length) {
+      if (!isDeleting && j <= frases[i].length) {
+        atual = frases[i].substring(0, j++);
+      } else if (isDeleting && j > 0) {
+        atual = frases[i].substring(0, j--);
+      } else if (!isDeleting && j > frases[i].length) {
+        isDeleting = true;
+        setTimeout(type, 1000);
+        return;
+      } else {
+        isDeleting = false;
+        i = (i + 1) % frases.length;
+      }
+      typeDiv.innerHTML = atual;
+      setTimeout(type, isDeleting ? 60 : 100);
+    }
+  }
+  type();
+
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  let pieces = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener("resize", resize);
+  resize();
+
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 50,
+      color: "hsl(" + Math.random() * 360 + ", 100%, 50%)",
+      tilt: Math.random() * 10 - 10,
+      tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+      tiltAngle: 0
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < pieces.length; i++) {
+      let p = pieces[i];
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+      ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+      ctx.stroke();
+    }
+    update();
+  }
+
+  function update() {
+    for (let i = 0; i < pieces.length; i++) {
+      let p = pieces[i];
+      p.tiltAngle += p.tiltAngleIncremental;
+      p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+      p.tilt = Math.sin(p.tiltAngle - i / 3) * 15;
+
+      if (p.y > canvas.height) {
+        p.y = -10;
+        p.x = Math.random() * canvas.width;
+      }
+    }
+  }
+
+  setInterval(draw, 20);
+</script>
+</body>
+</html>
